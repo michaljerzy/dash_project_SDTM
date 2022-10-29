@@ -1,10 +1,14 @@
-import mysql.connector as connection
-import pandas as pd
-try:
-    mydb = connection.connect(host="localhost", database = 'test',user="cezary", passwd="Pass123123",use_pure=True)
-    query = "Select * from oil_production;"
-    result_dataFrame = pd.read_sql(query,mydb)
-    mydb.close() #close the connection
-except Exception as e:
-    mydb.close()
-    print(str(e))
+# import necessary packages
+import pandas
+import psycopg2
+from sqlalchemy import create_engine
+
+# establish connection with the database
+engine = create_engine(
+    "dialect+driver//cezary:Pass123123@localhost:80/test")
+
+# read the pandas dataframe
+data = pandas.read_csv("path to dataset")
+
+# connect the pandas dataframe with postgresql table
+data.to_sql('loan_data', engine, if_exists='replace')
